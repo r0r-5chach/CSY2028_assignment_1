@@ -7,12 +7,13 @@ function addUser() {
     $schema = 'ibuy';
     $pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
 
-    $stmt = $pdo->prepare('INSERT INTO users (first_name, last_name, email, password)
-    VALUES (:first_name, :last_name, :email, :password)');
+    $stmt = $pdo->prepare('INSERT INTO users (first_name, last_name, email, password, admin)
+    VALUES (:first_name, :last_name, :email, :password, :admin)');
     $values = [
         'first_name' => $_POST['first_name'],
         'last_name' => $_POST['last_name'],
         'email' => $_POST['email'],
+        'admin' => 'n',
         'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
     ];
     $stmt->execute($values);
