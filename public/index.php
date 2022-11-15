@@ -29,7 +29,7 @@ function populateList($category) { //TODO: This will need to be updated to popul
         $listings = $stmt->fetchAll();
     }
     else {
-        $stmt = $pdo->prepare('SELECT * FROM listings WHERE listing_category = :listing_category');
+        $stmt = $pdo->prepare('SELECT * FROM listings WHERE listing_category = (SELECT category_id FROM categories WHERE category_name = :listing_category)');
         $values = [
             'listing_category' => $category
         ];
@@ -50,7 +50,7 @@ function populateList($category) { //TODO: This will need to be updated to popul
             <h2>'. $listing['listing_name'] .'</h2>
             <h3>'. $listing['listing_category'] .'</h3>
             <p>'. $listing['listing_description'] .'</p>
-            <p class="price">Current bid:'. $stmt->fetch() .'</p>
+            <p class="price">Current bid:'. $stmt->fetch()['MAX(amount)'] .'</p>
             <a href="listing.php?listing_id='. $listing['listing_id'] .'" class="more auctionLink">More &gt;&gt;</a>
         </article>
         </li>';
