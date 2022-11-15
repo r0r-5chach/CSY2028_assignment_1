@@ -1,7 +1,6 @@
 <?php
 //Listing display page. Display the 10 auctions finishing soonest
 //Can be used for index, search page, and category listing
-
 $pageTitle = 'iBuy - Home';
 
 if (isset($_GET['pageHeading'])) {
@@ -12,23 +11,53 @@ else {
 }
 
 $pageContent = '<h1>'.$pageHeading.'</h1>
-<ul class="productList">'.populateList().'</ul>';
+<ul class="productList">'.populateList($pageHeading).'</ul>';
 require '../layout.php';
 
-function populateList() { //TODO: This will need to be updated to populate from the database
+
+function populateList($category) { //TODO: This will need to be updated to populate from the database
     $output = '';
-    for ($i = 0; $i <= 10; $i++) {
+    $server = 'mysql';
+	$username = 'student';
+	$password = 'student';
+	$schema = 'ibuy';
+	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+
+    if ($category === 'Latest Listings') {
+        $stmt = $pdo->prepare('SELECT * FROM listings WHERE listing_deadline > "'. date("Y-m-d H:i:s"). '" ORDER BY listing_deadline DESC');
+        $stmt->execute();
+        $listings = $stmt->fetchAll();
+    }
+    else {
+        $stmt = $pdo->prepare('SELECT * FROM listings WHERE listing_category = (SELECT category_id FROM categories WHERE category_name = :listing_category)');
+        $values = [
+            'listing_category' => $category
+        ];
+        $stmt->execute($values);
+        $listings = $stmt->fetchAll();
+    }
+
+    foreach ($listings as &$listing) {
+        $stmt = $pdo->prepare('SELECT MAX(amount) FROM bids WHERE listing_id = :listing_id');
+        $values = [
+            'listing_id' => $listing['listing_id']
+        ];
+        $stmt->execute($values);
+
         $output .= '<li>
         <img src="assets/product.png" alt="product name">
         <article>
-            <h2>Product name</h2>
-            <h3>Product category</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sodales ornare purus, non laoreet dolor sagittis id. Vestibulum lobortis laoreet nibh, eu luctus purus volutpat sit amet. Proin nec iaculis nulla. Vivamus nec tempus quam, sed dapibus massa. Etiam metus nunc, cursus vitae ex nec, scelerisque dapibus eros. Donec ac diam a ipsum accumsan aliquet non quis orci. Etiam in sapien non erat dapibus rhoncus porta at lorem. Suspendisse est urna, egestas ut purus quis, facilisis porta tellus. Pellentesque luctus dolor ut quam luctus, nec porttitor risus dictum. Aliquam sed arcu vehicula, tempor velit consectetur, feugiat mauris. Sed non pellentesque quam. Integer in tempus enim.</p>
-            <p class="price">Current bid: £123.45</p>
-            <a href="listing.php" class="more auctionLink">More &gt;&gt;</a>
+            <h2>'. $listing['listing_name'] .'</h2>
+            <h3>'. $listing['listing_category'] .'</h3>
+            <p>'. $listing['listing_description'] .'</p>
+            <p class="price">Current bid:'. $stmt->fetch()['MAX(amount)'] .'</p>
+            <a href="listing.php?listing_id='. $listing['listing_id'] .'" class="more auctionLink">More &gt;&gt;</a>
         </article>
-    </li>';
+        </li>';
     }
+
+
+    
     return $output;
 }
 ?>
