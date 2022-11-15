@@ -49,7 +49,7 @@ function populateContent() {
         <h3>'. $category['category_name'] .'</h3>
         <p>Auction created by <a href="#">'. $user['first_name'].$user['last_name'] .'</a></p> 
         <p class="price">Current bid: '. $bid['MAX(amount)'] .'</p>
-        <time>Time left:'. (strtotime($listing['listing_deadline']) - strtotime(date('Y-m-d H:i:s')))/60 .'</time>
+        <time>Time left:'. round((strtotime($listing['listing_deadline']) - strtotime(date('Y-m-d H:i:s')))/60,1 ) .' Minutes</time>
         <form action="#" class="bid">
             <input type="text" name="bid" placeholder="Enter bid amount" />
             <input type="submit" value="Place bid" />
