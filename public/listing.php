@@ -1,6 +1,5 @@
 <?php
 $pageTitle = 'iBuy - Product Listing'; 
-//TODO: have page populate information based on listing in the database
 $pageContent = '<h1>Product Page</h1>
 <article class="product">'. populateContent() .'</article>';
 
@@ -80,3 +79,6 @@ function populateContent() {
     return $output;
 }
 ?>
+//TODO: add functionality for bid form
+//TODO: add functionality for review form
+//TODO: add bid history
