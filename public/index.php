@@ -1,7 +1,6 @@
 <?php
 //Listing display page. Display the 10 auctions finishing soonest
 //Can be used for index, search page, and category listing
-
 $pageTitle = 'iBuy - Home';
 
 if (isset($_GET['pageHeading'])) {
@@ -15,6 +14,7 @@ $pageContent = '<h1>'.$pageHeading.'</h1>
 <ul class="productList">'.populateList($pageHeading).'</ul>';
 require '../layout.php';
 
+
 function populateList($category) { //TODO: This will need to be updated to populate from the database
     $output = '';
     $server = 'mysql';
@@ -24,7 +24,7 @@ function populateList($category) { //TODO: This will need to be updated to popul
 	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
 
     if ($category === 'Latest Listings') {
-        $stmt = $pdo->prepare('SELECT * FROM listings WHERE listing_deadline > "'. date("Y-m-d h:i:s"). '" ORDER BY listing_deadline DESC');
+        $stmt = $pdo->prepare('SELECT * FROM listings WHERE listing_deadline > "'. date("Y-m-d H:i:s"). '" ORDER BY listing_deadline DESC');
         $stmt->execute();
         $listings = $stmt->fetchAll();
     }

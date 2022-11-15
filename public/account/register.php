@@ -1,5 +1,4 @@
 <?php
-
 function addUser() {
     $server = 'mysql';
     $username = 'student';
@@ -30,7 +29,6 @@ $pageContent = '<p>Already have an account?<a href=\'login.php\'>Click here to L
     <input name="submit" type="submit" value="Submit" />
     </form>';
 require '../../layout.php';
-
 
 if (isset($_POST['submit'])) {
     addUser();

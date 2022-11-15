@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
     $user = $stmt->fetch();
     if (password_verify($_POST['password'], $user['password'])) {
         $_SESSION['loggedin'] = $user['user_id'];
-        echo'<p>Successful login</p>';
+        echo'<script>window.location.href = "../index.php";</script>';
         if ($user['admin'] === 'y') {
             $_SESSION['loggedin'] = 'y';
         }
