@@ -24,6 +24,9 @@ if (isset($_POST['submit'])) {
     if (password_verify($_POST['password'], $user['password'])) {
         $_SESSION['loggedin'] = $user['user_id'];
         echo'<p>Successful login</p>';
+        if ($user['admin'] === 'y') {
+            $_SESSION['loggedin'] = 'y';
+        }
     }
     else {
         echo '<p>Unsuccessful Login</p>';
