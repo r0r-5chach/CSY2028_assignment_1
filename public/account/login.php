@@ -10,10 +10,10 @@ $pageContent = '<p>Don\'t have an account?<a href=\'register.php\'>Click here to
 $stylesheet = '../assets/ibuy.css';
 require '../../layout.php';
 $server = 'mysql';
-    $username = 'student';
-    $password = 'student';
-    $schema = 'ibuy';
-    $pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+$username = 'student';
+$password = 'student';
+$schema = 'ibuy';
+$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
 if (isset($_POST['submit'])) {
     $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
     $values = [

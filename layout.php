@@ -32,13 +32,19 @@ else {
 
 		<nav> <!--TODO: Populate this list from the categories defined by the admins-->
 			<ul>
-				<li><a class="categoryLink" href="../index.php?pageHeading=Home+%26+Garden">Home &amp; Garden</a></li>
-				<li><a class="categoryLink" href="../index.php?pageHeading=Electronics">Electronics</a></li>
-				<li><a class="categoryLink" href="../index.php?pageHeading=Fashion">Fashion</a></li>
-				<li><a class="categoryLink" href="../index.php?pageHeading=Sport">Sport</a></li>
-				<li><a class="categoryLink" href="../index.php?pageHeading=Health">Health</a></li>
-				<li><a class="categoryLink" href="../index.php?pageHeading=Toys">Toys</a></li>
-				<li><a class="categoryLink" href="../index.php?pageHeading=Motors">Motors</a></li>
+				<?php
+					$server = 'mysql';
+					$username = 'student';
+					$password = 'student';
+					$schema = 'ibuy';
+					$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+					$stmt = $pdo->prepare('SELECT * FROM categories');
+					$stmt->execute();
+					$cats = $stmt->fetchAll();
+					foreach ($cats as &$cat) {
+						echo '<li><a class="categoryLink" href="../index.php?pageHeading='. urlencode($cat['category_name']) .'">'. $cat['category_name'] .'</a></li>';
+					}
+				?>
 				<li><a class="categoryLink" <?php echo $logButton?></a></li>
 			</ul>
 		</nav>
