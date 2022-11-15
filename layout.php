@@ -38,7 +38,7 @@
                 echo $pageContent;
             ?>
         <footer>
-			&copy; ibuy 2019
+			&copy; ibuy <?php echo date('Y')?>
 		</footer>
         </main>
 	</body>
