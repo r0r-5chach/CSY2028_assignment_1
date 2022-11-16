@@ -1,6 +1,6 @@
 <?php
 session_start();
 unset($_SESSION['loggedin']);
-header('Location: ../index.php');
-echo '<p>Logged Out</p>';
+unset($_SESSION['admin']);
+echo'<script>window.location.href = "../index.php";</script>';
 ?>

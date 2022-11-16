@@ -1,4 +1,5 @@
 <?php
+session_start();
 //Listing display page. Display the 10 auctions finishing soonest
 //Can be used for index, search page, and category listing
 $pageTitle = 'iBuy - Home';

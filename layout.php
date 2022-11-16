@@ -1,11 +1,12 @@
 <?php
-session_start();
 if (isset($_SESSION['loggedin'])) {
-	$logButton = 'href="account/logout.php">Logout';
+	$logButton = 'href="../account/logout.php">Logout';
 }
 else {
-	$logButton = 'href="account/login.php">Login';
+	$logButton = 'href="../account/login.php">Login';
 }
+
+require_once 'db.php';
 ?>
 
 <!DOCTYPE html>
@@ -33,14 +34,7 @@ else {
 		<nav> <!--TODO: Populate this list from the categories defined by the admins-->
 			<ul>
 				<?php
-					$server = 'mysql';
-					$username = 'student';
-					$password = 'student';
-					$schema = 'ibuy';
-					$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
-					$stmt = $pdo->prepare('SELECT * FROM categories');
-					$stmt->execute();
-					$cats = $stmt->fetchAll();
+					$cats = fetchCats();
 					foreach ($cats as &$cat) {
 						echo '<li><a class="categoryLink" href="../index.php?pageHeading='. urlencode($cat['category_name']) .'">'. $cat['category_name'] .'</a></li>';
 					}
