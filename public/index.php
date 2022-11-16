@@ -25,12 +25,12 @@ function populateList($category) { //TODO: This will need to be updated to popul
 	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
 
     if ($category === 'Latest Listings') {
-        $stmt = $pdo->prepare('SELECT * FROM listings WHERE listing_deadline > "'. date("Y-m-d H:i:s"). '" ORDER BY listing_deadline DESC');
+        $stmt = $pdo->prepare('SELECT * FROM auction WHERE endDate > "'. date("Y-m-d H:i:s"). '" ORDER BY endDate DESC');
         $stmt->execute();
         $listings = $stmt->fetchAll();
     }
     else {
-        $stmt = $pdo->prepare('SELECT * FROM listings WHERE listing_category = (SELECT category_id FROM categories WHERE category_name = :listing_category)');
+        $stmt = $pdo->prepare('SELECT * FROM auction WHERE categoryId = (SELECT category_id FROM category WHERE name = :listing_category)');
         $values = [
             'listing_category' => $category
         ];
@@ -48,9 +48,9 @@ function populateList($category) { //TODO: This will need to be updated to popul
         $output .= '<li>
         <img src="assets/product.png" alt="product name">
         <article>
-            <h2>'. $listing['listing_name'] .'</h2>
-            <h3>'. $listing['listing_category'] .'</h3>
-            <p>'. $listing['listing_description'] .'</p>
+            <h2>'. $listing['name'] .'</h2>
+            <h3>'. $listing['categoryId'] .'</h3>
+            <p>'. $listing['description'] .'</p>
             <p class="price">Current bid:'. $stmt->fetch()['MAX(amount)'] .'</p>
             <a href="listing.php?listing_id='. $listing['listing_id'] .'" class="more auctionLink">More &gt;&gt;</a>
         </article>

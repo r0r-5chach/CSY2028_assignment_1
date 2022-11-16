@@ -36,7 +36,7 @@ require_once 'db.php';
 				<?php
 					$cats = fetchCats();
 					foreach ($cats as &$cat) {
-						echo '<li><a class="categoryLink" href="../index.php?pageHeading='. urlencode($cat['category_name']) .'">'. $cat['category_name'] .'</a></li>';
+						echo '<li><a class="categoryLink" href="../index.php?pageHeading='. urlencode($cat['name']) .'">'. $cat['name'] .'</a></li>';
 					}
 				?>
 				<li><a class="categoryLink" <?php echo $logButton?></a></li>

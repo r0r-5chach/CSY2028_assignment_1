@@ -14,16 +14,16 @@ function populateContent() {
     $schema = 'ibuy';
     $pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
     
-    $stmt = $pdo->prepare('SELECT * FROM listings WHERE listing_id= :listing_id');
+    $stmt = $pdo->prepare('SELECT * FROM auction WHERE listing_id= :listing_id');
     $values = [
         'listing_id' => $_GET['listing_id']
     ];
     $stmt->execute($values);
     $listing = $stmt->fetch();
     
-    $stmt = $pdo->prepare('SELECT * FROM categories WHERE category_id = :category_id');
+    $stmt = $pdo->prepare('SELECT * FROM category WHERE category_id = :category_id');
     $values = [
-        'category_id' => $listing['listing_category']
+        'category_id' => $listing['categoryId']
     ];
     $stmt->execute($values);
     $category = $stmt->fetch();
@@ -37,25 +37,25 @@ function populateContent() {
 
     $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
     $values = [
-        'email' => $listing['listing_email']
+        'email' => $listing['email']
     ];
     $stmt->execute($values);
     $user = $stmt->fetch();
 
     $output = ' <img src="product.png" alt="product name">
     <section class="details">
-        <h2>'. $listing['listing_name'] .'</h2>
-        <h3>'. $category['category_name'] .'</h3>
+        <h2>'. $listing['name'] .'</h2>
+        <h3>'. $category['name'] .'</h3>
         <p>Auction created by <a href="#">'. $user['first_name'].$user['last_name'] .'</a></p> 
         <p class="price">Current bid: '. $bid['MAX(amount)'] .'</p>
-        <time>Time left:'. round((strtotime($listing['listing_deadline']) - strtotime(date('Y-m-d H:i:s')))/60,1 ) .' Minutes</time>
+        <time>Time left:'. round((strtotime($listing['endDate']) - strtotime(date('Y-m-d H:i:s')))/60,1 ) .' Minutes</time>
         <form action="#" class="bid">
             <input type="text" name="bid" placeholder="Enter bid amount" />
             <input type="submit" value="Place bid" />
         </form>
     </section>
     <section class="description">
-    <p>'. $listing['listing_description'] .'</p>
+    <p>'. $listing['description'] .'</p>
 
 
     </section>

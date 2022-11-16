@@ -5,7 +5,7 @@ function fetchCats() {
 	$password = 'student';
 	$schema = 'ibuy';
 	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
-	$stmt = $pdo->prepare('SELECT * FROM categories');
+	$stmt = $pdo->prepare('SELECT * FROM category');
 	$stmt->execute();
 	$cats = $stmt->fetchAll();
 
