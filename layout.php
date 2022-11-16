@@ -31,7 +31,7 @@ require_once 'db.php';
 
 		</header>
 
-		<nav> <!--TODO: Populate this list from the categories defined by the admins-->
+		<nav>
 			<ul>
 				<?php
 					$cats = fetchCats();
