@@ -11,3 +11,4 @@ function fetchCats() {
 
     return $cats;
 }
+?>
