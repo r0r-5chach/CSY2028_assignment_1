@@ -21,7 +21,7 @@ function populateList($category) { //TODO: This will need to be updated to popul
     $server = 'mysql';
 	$username = 'student';
 	$password = 'student';
-	$schema = 'ibuy';
+	$schema = 'assignment1';
 	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
 
     if ($category === 'Latest Listings') {
@@ -48,7 +48,7 @@ function populateList($category) { //TODO: This will need to be updated to popul
         $output .= '<li>
         <img src="assets/product.png" alt="product name">
         <article>
-            <h2>'. $listing['name'] .'</h2>
+            <h2>'. $listing['title'] .'</h2>
             <h3>'. $listing['categoryId'] .'</h3>
             <p>'. $listing['description'] .'</p>
             <p class="price">Current bid:'. $stmt->fetch()['MAX(amount)'] .'</p>

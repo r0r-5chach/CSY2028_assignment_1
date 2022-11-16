@@ -13,7 +13,7 @@ require '../../layout.php';
 $server = 'mysql';
 $username = 'student';
 $password = 'student';
-$schema = 'ibuy';
+$schema = 'assignment1';
 $pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
 if (isset($_POST['submit'])) {
     $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');

@@ -3,7 +3,7 @@ function fetchCats() {
     $server = 'mysql';
 	$username = 'student';
 	$password = 'student';
-	$schema = 'ibuy';
+	$schema = 'assignment1';
 	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
 	$stmt = $pdo->prepare('SELECT * FROM category');
 	$stmt->execute();

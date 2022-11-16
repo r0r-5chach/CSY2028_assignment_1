@@ -3,7 +3,7 @@ function addUser() {
     $server = 'mysql';
     $username = 'student';
     $password = 'student';
-    $schema = 'ibuy';
+    $schema = 'assignment1';
     $pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
 
     $stmt = $pdo->prepare('INSERT INTO users (first_name, last_name, email, password, admin)

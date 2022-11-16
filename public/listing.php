@@ -11,7 +11,7 @@ function populateContent() {
     $server = 'mysql';
     $username = 'student';
     $password = 'student';
-    $schema = 'ibuy';
+    $schema = 'assignment1';
     $pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
     
     $stmt = $pdo->prepare('SELECT * FROM auction WHERE listing_id= :listing_id');
@@ -44,7 +44,7 @@ function populateContent() {
 
     $output = ' <img src="product.png" alt="product name">
     <section class="details">
-        <h2>'. $listing['name'] .'</h2>
+        <h2>'. $listing['title'] .'</h2>
         <h3>'. $category['name'] .'</h3>
         <p>Auction created by <a href="#">'. $user['first_name'].$user['last_name'] .'</a></p> 
         <p class="price">Current bid: '. $bid['MAX(amount)'] .'</p>
