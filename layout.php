@@ -49,6 +49,7 @@ require_once 'functions.php';
                 echo $pageContent;
             ?>
         <footer>
+			<a style="text-decoration: none;" href="admin/adminCategories.php">admins</a><br>
 			&copy; ibuy <?php echo date('Y')?>
 		</footer>
         </main>
