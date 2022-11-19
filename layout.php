@@ -6,7 +6,7 @@ else {
 	$logButton = 'href="../account/login.php">Login';
 }
 
-require_once 'db.php';
+require_once 'functions.php';
 ?>
 
 <!DOCTYPE html>

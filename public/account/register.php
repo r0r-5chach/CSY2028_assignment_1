@@ -28,6 +28,7 @@ $pageContent = '<p>Already have an account?<a href=\'login.php\'>Click here to L
     <label>Password</label> <input name="password" type="text" />
     <input name="submit" type="submit" value="Submit" />
     </form>';
+    
 require '../../layout.php';
 
 if (isset($_POST['submit'])) {
