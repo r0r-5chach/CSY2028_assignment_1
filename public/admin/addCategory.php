@@ -6,7 +6,7 @@ require_once '../../functions.php';
 adminCheck();
 $pageContent = '<h1> Add Category</h1>
 <form action="addCategory.php" method="POST">
-<label>Name</label> <input name="name" type="text" />
+<label>Name</label> <input name="name" type="text" placeholder="name"/>
 <input name="submit" type="submit" value="Submit" />
 </form>';
 require '../../layout.php';

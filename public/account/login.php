@@ -4,8 +4,8 @@ $pageTitle = 'iBuy - Login';
 $pageContent = '<p>Don\'t have an account?<a href=\'register.php\'>Click here to register</a></p>
     <h1>Login</h1>
     <form action="login.php" method="POST">
-    <label>Email</label> <input name="email" type="text" />
-    <label>Password</label> <input name="password" type="password" />
+    <label>Email</label> <input name="email" type="text" placeholder="john.doe@example.com"/>
+    <label>Password</label> <input name="password" type="password" placeholder="password"/>
     <input name="submit" type="submit" value="Submit" />
     </form>';
 $stylesheet = '../assets/ibuy.css';
