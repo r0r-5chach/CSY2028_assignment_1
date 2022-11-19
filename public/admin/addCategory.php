@@ -25,3 +25,4 @@ if (isset($_POST['submit'])) {
 	$stmt->execute($values);
     echo '<script>window.location.href = "adminCategories.php";</script>';
 }
+?>
