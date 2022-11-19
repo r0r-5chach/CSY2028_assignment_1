@@ -16,7 +16,7 @@ $pageContent = '<h1>'.$pageHeading.'</h1>
 require '../layout.php';
 
 
-function populateList($category) { //TODO: This will need to be updated to populate from the database
+function populateList($category) { 
     $output = '';
     $server = 'mysql';
 	$username = 'student';
@@ -56,9 +56,6 @@ function populateList($category) { //TODO: This will need to be updated to popul
         </article>
         </li>';
     }
-
-
-    
     return $output;
 }
 ?>
