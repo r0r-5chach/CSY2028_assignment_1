@@ -16,13 +16,18 @@ $pdo = startDB();
 
 if (isset($_POST['submit'])) {
     $user = getFirstAllMatches('users', 'email', $_POST['email']);
-    if (password_verify($_POST['password'], $user['password'])) {
-        $_SESSION['loggedin'] = $user['user_id'];
-        if ($user['admin'] === 'y') {
-            $_SESSION['admin'] = 'y';
+    if($user) {
+        if (password_verify($_POST['password'], $user['password'])) {
+            $_SESSION['loggedin'] = $user['user_id'];
+            if ($user['admin'] === 'y') {
+                $_SESSION['admin'] = 'y';
+            }
+            echo'<script>window.location.href = "../index.php";</script>';
+            
         }
-        echo'<script>window.location.href = "../index.php";</script>';
-        
+        else {
+            echo '<p>Unsuccessful Login</p>';
+        }
     }
     else {
         echo '<p>Unsuccessful Login</p>';

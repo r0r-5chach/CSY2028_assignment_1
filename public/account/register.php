@@ -1,21 +1,6 @@
 <?php
 require_once '../../functions.php';
 
-function addUser() {
-    $pdo = startDB();
-
-    $stmt = $pdo->prepare('INSERT INTO users (first_name, last_name, email, password, admin)
-    VALUES (:first_name, :last_name, :email, :password, :admin)');
-    $values = [
-        'first_name' => $_POST['first_name'],
-        'last_name' => $_POST['last_name'],
-        'email' => $_POST['email'],
-        'admin' => 'n',
-        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
-    ];
-    $stmt->execute($values);
-}
-
 $pageTitle = 'iBuy - Register';
 $pageContent = '<p>Already have an account?<a href=\'login.php\'>Click here to Login</a></p>
     <h1>Register</h1>
@@ -30,7 +15,7 @@ $pageContent = '<p>Already have an account?<a href=\'login.php\'>Click here to L
 require '../../layout.php';
 
 if (isset($_POST['submit'])) {
-    addUser();
+    addUser(false);
     echo '<p>Successful account creation</p>';
 }
 ?>

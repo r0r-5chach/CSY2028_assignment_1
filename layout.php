@@ -24,7 +24,7 @@ require_once 'functions.php';
 		<header>
 			<h1><a href="../index.php"><span class="i">i</span><span class="b">b</span><span class="u">u</span><span class="y">y</span></a></h1>
 
-			<form action="#">
+			<form action="../search.php" method='GET'>
 				<input type="text" name="search" placeholder="Search for anything" />
 				<input type="submit" name="submit" value="Search" />
 			</form>
@@ -49,7 +49,8 @@ require_once 'functions.php';
                 echo $pageContent;
             ?>
         <footer>
-			<a style="text-decoration: none;" href="../admin/adminCategories.php">admins</a><br>
+			<a style="text-decoration: none;" href="../admin/adminCategories.php">admin categories</a><br>
+			<a style="text-decoration: none;" href="../admin/manageAdmins.php">admin users</a><br>
 			&copy; ibuy <?php echo date('Y')?>
 		</footer>
         </main>

@@ -34,6 +34,12 @@ function checkListing() {
 	}
 }
 
+function checkId() {
+	if (!isset($_GET['user_id'])) {
+		echo '<script>window.location.href = "index.php";</script>';
+	}
+}
+
 function getListing() {
 	return getFirstAllMatches('auction', 'listing_id', $_GET['listing_id']);
 }
@@ -130,5 +136,31 @@ function imageUpload($name) { //Code for uploading an image. Modified from https
 		echo '<p>There was an error uploading your image</p>';
         return false;
 	}
+}
+
+function addUser($adminFlag) {
+    $pdo = startDB();
+
+    $stmt = $pdo->prepare('INSERT INTO users (first_name, last_name, email, password, admin)
+    VALUES (:first_name, :last_name, :email, :password, :admin)');
+	if ($adminFlag) {
+		$values = [
+        	'first_name' => $_POST['first_name'],
+        	'last_name' => $_POST['last_name'],
+        	'email' => $_POST['email'],
+        	'admin' => 'y',
+        	'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+    	];
+	}
+	else {
+    	$values = [
+        	'first_name' => $_POST['first_name'],
+        	'last_name' => $_POST['last_name'],
+        	'email' => $_POST['email'],
+        	'admin' => 'n',
+        	'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+    ];
+	}
+    $stmt->execute($values);
 }
 ?>

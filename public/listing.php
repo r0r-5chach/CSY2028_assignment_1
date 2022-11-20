@@ -23,7 +23,7 @@ else if (isset($_POST['reviewSubmit'])) {
     VALUES (:review_user, :review_date, :review_contents, :user_id)');
     $values = [
         'review_user' => $_SESSION['loggedin'],
-        'review_date' => date('Y-m-d'),
+        'review_date' => date('Y-m-d H:i:s'),
         'review_contents' => $_POST['reviewtext'],
         'user_id' => $user['user_id']
     ];
@@ -90,7 +90,7 @@ function getReviews($user_id) {
     $output = '';
     foreach ($reviews as &$review) {
         $user = getFirstAllMatches('users', 'user_id', $review['review_user']);
-        $output .= '<li><strong>'.$user['first_name'].$user['last_name'].' said </strong>'.$review['review_contents'].' <em>'. $review['review_date'] .'</em></li>';
+        $output .= '<li><a href="account/userReviews.php?user_id='.$review['review_user'].'">'.$user['first_name'].$user['last_name'].' said </a>'.$review['review_contents'].' <em>'. $review['review_date'] .'</em></li>';
     }
 
     return $output;
