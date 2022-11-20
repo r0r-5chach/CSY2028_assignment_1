@@ -4,7 +4,6 @@ $stylesheet = '../assets/ibuy.css';
 require_once '../../functions.php';
 
 checkListing();
-$pdo = startDB();
 $listing = getListing();
 
 $pageContent = '<h1>Edit Auction</h1>
@@ -14,11 +13,21 @@ $pageContent = '<h1>Edit Auction</h1>
 <label>End Date</label> <input name="endDate" type="date"/>
 <label>Description</label> <textarea name="description" style="width: 438px; height: 249px;" placeholder="'. $listing['description'] .'"></textarea>
 <label>Image</label> <input type="file" name="auctionImg"/>
+<label>Delete</label> <input type="checkbox" name="delete" value = "true"/>
 <input name="submit" type="submit" value="Submit" style="margin-top: 10px;"/>
 </form>';
 require '../../layout.php';
 
 if(isset($_POST['submit'])) {
+    $pdo = startDB();
+    if(isset($_POST['delete'])) {
+        $stmt = $pdo->prepare('DELETE FROM auction WHERE listing_id = :listing_id');
+        $values = [
+            'listing_id' => $listing['listing_id']
+        ];
+        $stmt->execute($values);
+        echo '<script>window.location.href = "../index.php";</script>';
+    }
     if(imageUpload($_POST['title'].$_POST['endDate'])) {
 
         $stmt = $pdo->prepare('UPDATE auction SET title = :title, categoryId = :categoryId, endDate = :endDate, description = :description, imgUrl = :imgUrl WHERE listing_id = :listing_id');

@@ -19,7 +19,7 @@ function adminCheck() {
 	}
 }
 
-function startDB() {
+function startDB() { // Code for connecting to the database from https://www.sitepoint.com/re-introducing-pdo-the-right-way-to-access-databases-in-php/
 	$server = 'mysql';
 	$username = 'student';
 	$password = 'student';
@@ -84,7 +84,7 @@ function getFirstAllMatches($tableName, $constraintCol, $constraint) {
 	return executeAllQuery($tableName, $constraintCol, $constraint)->fetch();
 }
 
-function imageUpload($name) {
+function imageUpload($name) { //Code for uploading an image. Modified from https://www.w3schools.com/php/php_file_upload.asp
 	$imgDir = 'public/images/auctions/';
 	$file = $imgDir . $name;
 	$okFlag = true;
