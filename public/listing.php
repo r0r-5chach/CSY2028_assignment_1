@@ -106,4 +106,3 @@ function getBids($listing_id){
     return $output;
 }
 ?>
-//TODO: add bid history
