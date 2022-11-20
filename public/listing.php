@@ -7,19 +7,11 @@ $pageContent = '<h1>Product Page</h1>
 
 require '../layout.php';
 
-if (!isset($_GET['listing_id'])) {
-    echo '<script>window.location.href = "index.php";</script>';
-}
+checkListing();
 
 function populateContent() {
     $pdo = startDB();
-    
-    $stmt = $pdo->prepare('SELECT * FROM auction WHERE listing_id= :listing_id');
-    $values = [
-        'listing_id' => $_GET['listing_id']
-    ];
-    $stmt->execute($values);
-    $listing = $stmt->fetch();
+    $listing = getListing();
     
     $stmt = $pdo->prepare('SELECT * FROM category WHERE category_id = :category_id');
     $values = [
@@ -48,7 +40,7 @@ function populateContent() {
         <h3>'. $category['name'] .'</h3>
         <p>Auction created by <a href="#">'. $user['first_name'].$user['last_name'] .'</a></p> 
         <p class="price">Current bid: '. $bid['MAX(amount)'] .'</p>
-        <time>Time left:'. round((strtotime($listing['endDate']) - strtotime(date('Y-m-d H:i:s')))/60,1 ) .' Minutes</time>
+        <time>Time left:'. round((strtotime($listing['endDate']) - strtotime(date('Y-m-d H:i:s')))/60/60,1 ) .' Hours</time>
         <form action="#" class="bid">
             <input type="text" name="bid" placeholder="Enter bid amount" />
             <input type="submit" value="Place bid" />

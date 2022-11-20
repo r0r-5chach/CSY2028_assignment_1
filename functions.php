@@ -27,4 +27,29 @@ function startDB() {
 	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
 	return $pdo;
 }
+
+function checkListing() {
+	if (!isset($_GET['listing_id'])) {
+		echo '<script>window.location.href = "index.php";</script>';
+	}
+}
+
+function getListing() {
+	$pdo = startDB();
+    $stmt = $pdo->prepare('SELECT * FROM auction WHERE listing_id = :listing_id');
+    $values = [
+        'listing_id' => $_GET['listing_id']
+    ];
+    $stmt->execute($values);
+    return $stmt->fetch();
+}
+
+function populateCatSelect() {
+    $cats = fetchCats();
+    $output = '';
+	foreach ($cats as &$cat) {
+	    $output .= '<option value="'. $cat['category_id'] .'">'. $cat['name'] .'</option>';
+    }
+    return $output;
+}
 ?>

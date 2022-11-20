@@ -13,7 +13,7 @@ $pdo = startDB();
 $pageContent = '<h1>Add auction</h1>
 <form action="addAuction.php" method="POST">
 <label>Title</label> <input name="title" type="text" placeholder="Auction Title"/>
-<label>Category</label> <select name="category" style="width:420px; margin-bottom: 10px;">'. populateCats() .'</select>
+<label>Category</label> <select name="category" style="width:420px; margin-bottom: 10px;">'. populateCatSelect() .'</select>
 <label>End Date</label> <input name="endDate" type="date"/>
 <label>Description</label> <textarea name="description" style="width: 438px; height: 249px;" placeholder="description"></textarea>
 <input name="submit" type="submit" value="Submit" style="margin-top: 10px;"/>
@@ -42,11 +42,5 @@ if (isset($_POST['submit'])) {
     echo '<p>Successful Post</p>';
 }
 
-function populateCats() {
-    $cats = fetchCats();
-    $output = '';
-	foreach ($cats as &$cat) {
-	    $output .= '<option value="'. $cat['category_id'] .'">'. $cat['name'] .'</option>';
-    }
-    return $output;
-}
+
+?>
