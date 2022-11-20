@@ -15,12 +15,7 @@ require_once '../../functions.php';
 $pdo = startDB();
 
 if (isset($_POST['submit'])) {
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
-    $values = [
-        'email' => $_POST['email']
-    ];
-    $stmt->execute($values);
-    $user = $stmt->fetch();
+    $user = getFirstAllMatches('users', 'email', $_POST['email']);
     if (password_verify($_POST['password'], $user['password'])) {
         $_SESSION['loggedin'] = $user['user_id'];
         if ($user['admin'] === 'y') {

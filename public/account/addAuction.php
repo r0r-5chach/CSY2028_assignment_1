@@ -8,7 +8,6 @@ if (!isset($_SESSION['loggedin'])) {
 }
 
 require_once '../../functions.php';
-$pdo = startDB();
 
 $pageContent = '<h1>Add auction</h1>
 <form action="addAuction.php" method="POST">
@@ -21,14 +20,9 @@ $pageContent = '<h1>Add auction</h1>
 require '../../layout.php';
 
 if (isset($_POST['submit'])) {
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE user_id = :user_id');
-    $values = [
-        'user_id' => $_SESSION['loggedin']
-    ];
-    $stmt->execute($values);
-    $user = $stmt->fetch();
+    $user = getFirstAllMatches('users', 'user_id', $_SESSION['loggedin']);
 
-
+    $pdo = startDB();
     $stmt = $pdo->prepare('INSERT INTO auction (title, description, endDate, categoryId, email) 
     VALUES (:title, :description, :endDate, :categoryID, :email)');
     $values = [

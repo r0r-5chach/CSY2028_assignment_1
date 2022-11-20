@@ -17,12 +17,7 @@ if (isset($_POST['bidSubmit'])) {
     $stmt->execute($values);
 }
 else if (isset($_POST['reviewSubmit'])) {
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
-    $values = [
-        'email' => $listing['email']
-    ];
-    $stmt->execute($values);
-    $user = $stmt->fetch();
+    $user = getFirstAllMatches('users', 'email', $listing['email']);
 
     $stmt = $pdo->prepare('INSERT INTO review (review_user, review_date, review_contents, user_id)
     VALUES (:review_user, :review_date, :review_contents, :user_id)');
@@ -44,28 +39,9 @@ checkListing();
 
 
 function populateContent($listing) {
-    $pdo = startDB();
-    
-    $stmt = $pdo->prepare('SELECT * FROM category WHERE category_id = :category_id');
-    $values = [
-        'category_id' => $listing['categoryId']
-    ];
-    $stmt->execute($values);
-    $category = $stmt->fetch();
-
-    $stmt = $pdo->prepare('SELECT MAX(amount) FROM bids WHERE listing_id = :listing_id');
-    $values = [
-        'listing_id' => $listing['listing_id']
-    ];
-    $stmt->execute($values);
-    $bid = $stmt->fetch();
-
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
-    $values = [
-        'email' => $listing['email']
-    ];
-    $stmt->execute($values);
-    $user = $stmt->fetch();
+    $category = getFirstAllMatches('category', 'category_id', $listing['categoryId']);
+    $bid = getFirstMatch('bids','MAX(amount)', 'listing_id', $listing['listing_id']);
+    $user = getFirstAllMatches('users', 'email', $listing['email']);
 
     $output = ' <img src="product.png" alt="product name">
     <section class="details">
@@ -84,6 +60,10 @@ function populateContent($listing) {
 
 
     </section>';
+
+    $output .= '<section class="reviews">
+    <h2>Bid History </h2>
+    <ul>'. getBids($listing['listing_id']) .'</ul>';
 
     $output .= '<section class="reviews">
         <h2>Reviews of '. $user['first_name'].$user['last_name'].' </h2>
@@ -106,29 +86,24 @@ function populateContent($listing) {
 }
 
 function getReviews($user_id) {
-    $pdo = startDB();
+    $reviews = getEveryAllMatches('review', 'user_id', $user_id);
     $output = '';
-    $stmt = $pdo->prepare('SELECT * FROM review WHERE user_id = :user_id');
-    $values = [
-        'user_id' => $user_id
-    ];
-    $stmt->execute($values);
-    $reviews = $stmt->fetchAll();
-
-    
-
     foreach ($reviews as &$review) {
-        $stmt = $pdo->prepare('SELECT * FROM users WHERE user_id = :user_id');
-        $values = [
-            'user_id' => $review['review_user']
-        ];
-        $stmt->execute($values);
-        $user = $stmt->fetch();
+        $user = getFirstAllMatches('users', 'user_id', $review['review_user']);
         $output .= '<li><strong>'.$user['first_name'].$user['last_name'].' said </strong>'.$review['review_contents'].' <em>'. $review['review_date'] .'</em></li>';
     }
 
     return $output;
 }
 
+function getBids($listing_id){
+    $bids = getEveryAllMatches('bids', 'listing_id', $listing_id);
+    $output = '';
+    foreach ($bids as &$bid) {
+        $user = getFirstAllMatches('users', 'user_id', $bid['user_id']);
+        $output .= '<li><strong>'.$user['first_name'].$user['last_name'].' bid </strong>'.$bid['amount'].'</li>';
+    }
+    return $output;
+}
 ?>
 //TODO: add bid history

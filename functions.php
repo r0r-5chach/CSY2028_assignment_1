@@ -3,7 +3,7 @@ function fetchCats() {
     $pdo = startDB();
 	$stmt = $pdo->prepare('SELECT * FROM category');
 	$stmt->execute();
-	$cats = $stmt->fetchAll();
+	$cats = executeQueryWithoutConstraint('category','*')->fetchAll();
 
     return $cats;
 }
@@ -35,13 +35,7 @@ function checkListing() {
 }
 
 function getListing() {
-	$pdo = startDB();
-    $stmt = $pdo->prepare('SELECT * FROM auction WHERE listing_id = :listing_id');
-    $values = [
-        'listing_id' => $_GET['listing_id']
-    ];
-    $stmt->execute($values);
-    return $stmt->fetch();
+	return getFirstAllMatches('auction', 'listing_id', $_GET['listing_id']);
 }
 
 function populateCatSelect() {
@@ -52,4 +46,45 @@ function populateCatSelect() {
     }
     return $output;
 }
+
+function executeQuery($tableName, $colName, $constraintCol, $constraint) {
+	$pdo = startDB();
+	$stmt = $pdo->prepare('SELECT '. $colName .' FROM '.$tableName.' WHERE '. $constraintCol .' = :constraint');
+	$values = [
+		'constraint' => $constraint
+	];
+	$stmt->execute($values);
+	return $stmt;
+}
+
+function executeQueryWithoutConstraint($tableName, $colName) {
+	$pdo = startDB();
+	$stmt = $pdo->prepare('SELECT'.$colName.'FROM '.$tableName);
+	$stmt->execute();
+	return $stmt;
+}
+
+function getFirstMatch($tableName, $colName, $constraintCol, $constraint){
+	return executeQuery($tableName, $colName, $constraintCol, $constraint)->fetch();
+}
+
+function getEveryMatch($tableName, $colName, $constraintCol, $constraint){
+	return executeQuery($tableName, $colName, $constraintCol, $constraint)->fetchAll();
+}
+
+function executeAllQuery($tableName, $constraintCol, $constraint) {
+	return executeQuery($tableName, '*', $constraintCol, $constraint);
+}
+
+function getEveryAllMatches($tableName, $constraintCol, $constraint) {
+	return executeAllQuery($tableName, $constraintCol, $constraint)->fetchAll();
+}
+
+function getFirstAllMatches($tableName, $constraintCol, $constraint) {
+	return executeAllQuery($tableName, $constraintCol, $constraint)->fetch();
+}
+
+
+
+
 ?>
