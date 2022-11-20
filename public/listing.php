@@ -96,9 +96,10 @@ function populateContent($listing) {
     </section>';
 
     
-
-    if($user['user_id'] === $_SESSION['loggedin']) {
-        $output .= '<a href ="account/editAuction.php?listing_id='. $listing['listing_id'] . '">edit</a>';
+    if (isset($_SESSION['loggedin'])) {
+        if($user['user_id'] === $_SESSION['loggedin']) {
+            $output .= '<a href ="account/editAuction.php?listing_id='. $listing['listing_id'] . '">edit</a>';
+        }
     }
 
     return $output;
@@ -123,8 +124,10 @@ function getReviews($user_id) {
         ];
         $stmt->execute($values);
         $user = $stmt->fetch();
-        $output .= '<li><strong>'.$user['first_name'].$user['last_name'].' said </strong>'.$review['review_content'].' <em>'. $review['review_date'] .'</em></li>';
+        $output .= '<li><strong>'.$user['first_name'].$user['last_name'].' said </strong>'.$review['review_contents'].' <em>'. $review['review_date'] .'</em></li>';
     }
+
+    return $output;
 }
 
 ?>
