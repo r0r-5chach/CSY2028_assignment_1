@@ -10,31 +10,34 @@ if (!isset($_SESSION['loggedin'])) {
 require_once '../../functions.php';
 
 $pageContent = '<h1>Add auction</h1>
-<form action="addAuction.php" method="POST">
+<form action="addAuction.php" method="POST" enctype="multipart/form-data">
 <label>Title</label> <input name="title" type="text" placeholder="Auction Title"/>
 <label>Category</label> <select name="category" style="width:420px; margin-bottom: 10px;">'. populateCatSelect() .'</select>
 <label>End Date</label> <input name="endDate" type="date"/>
 <label>Description</label> <textarea name="description" style="width: 438px; height: 249px;" placeholder="description"></textarea>
+<label>Image</label> <input type="file" name="auctionImg"/>
 <input name="submit" type="submit" value="Submit" style="margin-top: 10px;"/>
 </form>';
 require '../../layout.php';
 
 if (isset($_POST['submit'])) {
-    $user = getFirstAllMatches('users', 'user_id', $_SESSION['loggedin']);
+    if(imageUpload($_POST['title'].$_POST['endDate'])) {
+        $user = getFirstAllMatches('users', 'user_id', $_SESSION['loggedin']);
 
-    $pdo = startDB();
-    $stmt = $pdo->prepare('INSERT INTO auction (title, description, endDate, categoryId, email) 
-    VALUES (:title, :description, :endDate, :categoryID, :email)');
-    $values = [
-        'title' => $_POST['title'],
-        'description' => $_POST['description'],
-        'endDate' => $_POST['endDate'],
-        'categoryID' => intval($_POST['category']),
-        'email' => $user['email']
-    ];
-    $stmt->execute($values);
-    echo '<p>Successful Post</p>';
+        $pdo = startDB();
+        $stmt = $pdo->prepare('INSERT INTO auction (title, description, endDate, categoryId, email, imgUrl) 
+        VALUES (:title, :description, :endDate, :categoryID, :email, :imgUrl)');
+    
+        $values = [
+            'title' => $_POST['title'],
+            'description' => $_POST['description'],
+            'endDate' => $_POST['endDate'],
+            'categoryID' => intval($_POST['category']),
+            'email' => $user['email'],
+            'imgUrl' => 'public/images/auctions/'.$_POST['title'].$_POST['endDate']
+        ];
+        $stmt->execute($values);
+        echo '<p>Successful Post</p>';
+    }
 }
-
-
 ?>

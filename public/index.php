@@ -24,6 +24,7 @@ function populateList($category) {
         $stmt = $pdo->prepare('SELECT * FROM auction WHERE endDate > "'. date("Y-m-d H:i:s"). '" ORDER BY endDate ASC');
         $stmt->execute();
         $listings = $stmt->fetchAll();
+        $count = 10;
     }
     else {
         $stmt = $pdo->prepare('SELECT * FROM auction WHERE categoryId = (SELECT category_id FROM category WHERE name = :listing_category)');
@@ -39,7 +40,7 @@ function populateList($category) {
         $bid = getFirstMatch('bids','MAX(amount)', 'listing_id', $listing['listing_id']);
 
         $output .= '<li>
-        <img src="assets/product.png" alt="product name">
+        <img src="'.$listing['imgUrl'].'" alt="product name">
         <article>
             <h2>'. $listing['title'] .'</h2>
             <h3>'. $listing['categoryId'] .'</h3>
@@ -48,6 +49,14 @@ function populateList($category) {
             <a href="listing.php?listing_id='. $listing['listing_id'] .'" class="more auctionLink">More &gt;&gt;</a>
         </article>
         </li>';
+
+        if ($category === 'Latest Listings') {
+            $count -= 1;
+            if ($count <= 0) {
+                break;
+            }
+        }
+
     }
     return $output;
 }

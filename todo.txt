@@ -1,0 +1,3 @@
+//TODO: upload images
+//TODO: Delete auction button on the editAuction page;
+//TODO: userReviews, addAdmin, manageAdmin, search

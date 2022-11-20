@@ -84,7 +84,51 @@ function getFirstAllMatches($tableName, $constraintCol, $constraint) {
 	return executeAllQuery($tableName, $constraintCol, $constraint)->fetch();
 }
 
+function imageUpload($name) {
+	$imgDir = 'public/images/auctions/';
+	$file = $imgDir . $name;
+	$okFlag = true;
+	$fileType = strtolower($_FILES['auctionImg']['type']);
 
+	//check if file is actually an image
+	if(isset($_POST['submit'])) {
+		$sizeCheck = getimagesize($_FILES['auctionImg']['tmp_name']);
+		if (!$sizeCheck) {
+			$okFlag = false;
+            echo 'not an image';
+		}
+	}
 
+	//check if file exists
+	if(file_exists($file)) {
+		$okFlag = false;
+        echo 'already exists';
+	}
 
+	if($_FILES['auctionImg']['size'] > 10000000) {
+		$okFlag = false;
+        echo 'too big';
+	}
+
+	//check filetypes
+	$types = array('image/jpg','image/png','image/jpeg','image/gif');
+	if(!in_array($fileType, $types)) {
+		$okFlag = false;
+        echo 'wrong type';
+	}
+
+	if($okFlag) {
+		if (move_uploaded_file($_FILES['auctionImg']['tmp_name'], '../../'.$file)) {
+			return true;
+		}
+		else {
+			echo '<p>There was an error uploading your image</p>';
+			return false;
+		}
+	}
+	else {
+		echo '<p>There was an error uploading your image</p>';
+        return false;
+	}
+}
 ?>
