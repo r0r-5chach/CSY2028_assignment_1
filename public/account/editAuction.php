@@ -18,12 +18,13 @@ $pageContent = '<h1>Edit Auction</h1>
 require '../../layout.php';
 
 if(isset($_POST['submit'])) {
-    $stmt = $pdo->prepare('UPDATE auction SET title = :title, categoryId = :categoryId, endDate = :endDate, description = :description');
+    $stmt = $pdo->prepare('UPDATE auction SET title = :title, categoryId = :categoryId, endDate = :endDate, description = :description WHERE listing_id = :listing_id');
     $values = [
         'title' => $_POST['title'],
         'categoryId' => intval($_POST['category']),
         'endDate' => $_POST['endDate'],
-        'description' => $_POST['description']
+        'description' => $_POST['description'],
+        'listing_id' => $listing['listing_id']
     ];
     $stmt->execute($values);
     echo '<script>window.location.href = "../listing.php?listing_id='.$listing['listing_id'].'";</script>';
