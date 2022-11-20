@@ -25,3 +25,4 @@ function populateList() {
     }
     return $output;
 }
+?>
