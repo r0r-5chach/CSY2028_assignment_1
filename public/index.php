@@ -12,7 +12,8 @@ else {
 }
 require_once '../functions.php';
 
-$pageContent = '<h1>'.$pageHeading.'</h1>
+$pageContent = '<a href="account/addAuction.php">post auction</a>
+<h1>'.$pageHeading.'</h1>
 <ul class="productList">'.populateList($pageHeading).'</ul>';
 require '../layout.php';
 
