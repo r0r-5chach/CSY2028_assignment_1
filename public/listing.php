@@ -1,11 +1,14 @@
 <?php
+require_once '../functions.php';
 $pageTitle = 'iBuy - Product Listing'; 
 $pageContent = '<h1>Product Page</h1>
 <article class="product">'. populateContent() .'</article>';
 
 require '../layout.php';
-require_once '../functions.php';
 
+if (!isset($_GET['listing_id'])) {
+    echo '<script>window.location.href = "index.php";</script>';
+}
 
 function populateContent() {
     $pdo = startDB();
