@@ -12,11 +12,7 @@ $pageContent = '<h1> Add Category</h1>
 require '../../layout.php';
 
 if (isset($_POST['submit'])) {
-    $server = 'mysql';
-	$username = 'student';
-	$password = 'student';
-	$schema = 'assignment1';
-	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+	$pdo = startDB();
 	$stmt = $pdo->prepare('INSERT INTO category(name)
     VALUES(:name)');
     $values = [

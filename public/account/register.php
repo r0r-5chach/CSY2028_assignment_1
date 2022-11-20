@@ -1,10 +1,8 @@
 <?php
+require_once '../../functions.php';
+
 function addUser() {
-    $server = 'mysql';
-    $username = 'student';
-    $password = 'student';
-    $schema = 'assignment1';
-    $pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+    $pdo = startDB();
 
     $stmt = $pdo->prepare('INSERT INTO users (first_name, last_name, email, password, admin)
     VALUES (:first_name, :last_name, :email, :password, :admin)');

@@ -10,20 +10,15 @@ if (isset($_GET['pageHeading'])) {
 else {
     $pageHeading = 'Latest Listings';
 }
+require_once '../functions.php';
 
 $pageContent = '<h1>'.$pageHeading.'</h1>
 <ul class="productList">'.populateList($pageHeading).'</ul>';
 require '../layout.php';
 
-
 function populateList($category) { 
+	$pdo = startDB();
     $output = '';
-    $server = 'mysql';
-	$username = 'student';
-	$password = 'student';
-	$schema = 'assignment1';
-	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
-
     if ($category === 'Latest Listings') {
         $stmt = $pdo->prepare('SELECT * FROM auction WHERE endDate > "'. date("Y-m-d H:i:s"). '" ORDER BY endDate DESC');
         $stmt->execute();

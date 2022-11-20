@@ -1,10 +1,6 @@
 <?php
 function fetchCats() {
-    $server = 'mysql';
-	$username = 'student';
-	$password = 'student';
-	$schema = 'assignment1';
-	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+    $pdo = startDB();
 	$stmt = $pdo->prepare('SELECT * FROM category');
 	$stmt->execute();
 	$cats = $stmt->fetchAll();
@@ -21,5 +17,14 @@ function adminCheck() {
 	else {
 		echo'<script>window.location.href = "../index.php";</script>';
 	}
+}
+
+function startDB() {
+	$server = 'mysql';
+	$username = 'student';
+	$password = 'student';
+	$schema = 'assignment1';
+	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+	return $pdo;
 }
 ?>

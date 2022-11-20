@@ -4,15 +4,11 @@ $pageContent = '<h1>Product Page</h1>
 <article class="product">'. populateContent() .'</article>';
 
 require '../layout.php';
-
+require_once '../functions.php';
 
 
 function populateContent() {
-    $server = 'mysql';
-    $username = 'student';
-    $password = 'student';
-    $schema = 'assignment1';
-    $pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+    $pdo = startDB();
     
     $stmt = $pdo->prepare('SELECT * FROM auction WHERE listing_id= :listing_id');
     $values = [

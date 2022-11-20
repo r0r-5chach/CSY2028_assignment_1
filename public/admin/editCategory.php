@@ -15,11 +15,7 @@ if (isset($_GET['category_id'])) {
     $_SESSION['cat_id'] = $_GET['category_id'];
 }
 else if (isset($_POST['submit'])) {
-    $server = 'mysql';
-	$username = 'student';
-	$password = 'student';
-	$schema = 'assignment1';
-	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+	$pdo = startDB();
 	$stmt = $pdo->prepare('UPDATE category SET name= :cat_name WHERE category_id= :category_id');
     $values = [
         'cat_name' => $_POST['name'],

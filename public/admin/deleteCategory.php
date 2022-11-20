@@ -6,11 +6,7 @@ require_once '../../functions.php';
 adminCheck();
 
 if (isset($_GET['category_id'])) {
-    $server = 'mysql';
-	$username = 'student';
-	$password = 'student';
-	$schema = 'assignment1';
-	$pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password);
+	$pdo = startDB();
 	$stmt = $pdo->prepare('DELETE FROM category WHERE category_id= :category_id');
     $values = [
         'category_id' => $_GET['category_id']
