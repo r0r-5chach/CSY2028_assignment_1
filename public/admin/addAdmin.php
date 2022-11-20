@@ -3,7 +3,7 @@ session_start();
 $pageTitle ='iBuy - Add Admin';
 $stylesheet = '../assets/ibuy.css';
 require_once '../../functions.php';
-adminCheck();
+adminCheck(); //checks to see if user is logged in as an admin
 $pageContent = '<h1> Add Admin</h1>
 <form action="addAdmin.php" method="POST">
 <label>First Name</label> <input name="first_name" type="text" placeholder="John"/>
@@ -15,7 +15,7 @@ $pageContent = '<h1> Add Admin</h1>
 require '../../layout.php';
 
 if (isset($_POST['submit'])) {
-	addUser(true);
-    echo '<script>window.location.href = "manageAdmins.php";</script>';
+	addUser(true); //adds user to the db with admin privileges
+    echo '<script>window.location.href = "manageAdmins.php";</script>'; //redirect
 }
 ?>

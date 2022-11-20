@@ -3,7 +3,7 @@ session_start();
 $pageTitle ='iBuy - Add Category';
 $stylesheet = '../assets/ibuy.css';
 require_once '../../functions.php';
-adminCheck();
+adminCheck(); //checks to see if user is logged in as admin
 $pageContent = '<h1> Add Category</h1>
 <form action="addCategory.php" method="POST">
 <label>Name</label> <input name="name" type="text" placeholder="name"/>
@@ -19,6 +19,6 @@ if (isset($_POST['submit'])) {
         'name' => $_POST['name']
     ];
 	$stmt->execute($values);
-    echo '<script>window.location.href = "adminCategories.php";</script>';
+    echo '<script>window.location.href = "adminCategories.php";</script>'; //redirect
 }
 ?>

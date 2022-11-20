@@ -3,7 +3,7 @@ session_start();
 $pageTitle = 'iBuy - Delete Category';
 $stylesheet = '../assets/ibuy.css';
 require_once '../../functions.php';
-adminCheck();
+adminCheck(); //checks to see if user is logged in as admin
 
 if (isset($_GET['category_id'])) {
 	$pdo = startDB();

@@ -3,8 +3,8 @@ session_start();
 $pageTitle = '';
 $stylesheet = '../assets/ibuy.css';
 require_once '../../functions.php';
-$admin = getFirstAllMatches('users', 'user_id', $_GET['admin_id']);
-adminCheck();
+$admin = getFirstAllMatches('users', 'user_id', $_GET['admin_id']); //gets the first match from an all column query
+adminCheck(); //checks to see if user is logged in as admin
 $pageContent = '<h1> Edit Admin</h1>
 <form action="editCategory.php" method="POST">
 <label>First Name</label> <input name="first_name" type="text" placeholder="John"/>
@@ -44,6 +44,6 @@ else if (isset($_POST['submit'])) {
     
 	$stmt->execute($values);
     unset($_SESSION['admin_id']);
-    echo '<script>window.location.href = "adminCategories.php";</script>';
+    echo '<script>window.location.href = "adminCategories.php";</script>'; //redirect
 }
 ?>

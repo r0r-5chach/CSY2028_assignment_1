@@ -20,7 +20,7 @@ require '../../layout.php';
 
 if(isset($_POST['submit'])) {
     $pdo = startDB();
-    if(isset($_POST['delete'])) {
+    if(isset($_POST['delete'])) { //delete the auction if selected
         $stmt = $pdo->prepare('DELETE FROM auction WHERE listing_id = :listing_id');
         $values = [
             'listing_id' => $listing['listing_id']
@@ -28,7 +28,7 @@ if(isset($_POST['submit'])) {
         $stmt->execute($values);
         echo '<script>window.location.href = "../index.php";</script>';
     }
-    if(imageUpload($_POST['title'].$_POST['endDate'])) {
+    if(imageUpload($_POST['title'].$_POST['endDate'])) { //if image upload is successful update the auction
 
         $stmt = $pdo->prepare('UPDATE auction SET title = :title, categoryId = :categoryId, endDate = :endDate, description = :description, imgUrl = :imgUrl WHERE listing_id = :listing_id');
         $values = [
@@ -40,7 +40,7 @@ if(isset($_POST['submit'])) {
             'imgUrl' => 'public/images/auctions/'.$_POST['title'].$_POST['endDate']
         ];
         $stmt->execute($values);
-        echo '<script>window.location.href = "../listing.php?listing_id='.$listing['listing_id'].'";</script>';
+        echo '<script>window.location.href = "../listing.php?listing_id='.$listing['listing_id'].'";</script>'; //redirect
     }
 }
 

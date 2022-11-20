@@ -3,8 +3,8 @@ session_start();
 $pageTitle = 'iBuy - Add Auction';
 $stylesheet = '../assets/ibuy.css';
 
-if (!isset($_SESSION['loggedin'])) {
-    echo '<script>window.location.href = "../index.php";</script>';
+if (!isset($_SESSION['loggedin'])) { //redirects if user is not logged in
+    echo '<script>window.location.href = "../index.php";</script>'; //redirect
 }
 
 require_once '../../functions.php';
@@ -21,8 +21,8 @@ $pageContent = '<h1>Add auction</h1>
 require '../../layout.php';
 
 if (isset($_POST['submit'])) {
-    if(imageUpload($_POST['title'].$_POST['endDate'])) {
-        $user = getFirstAllMatches('users', 'user_id', $_SESSION['loggedin']);
+    if(imageUpload($_POST['title'].$_POST['endDate'])) { //if the image upload is successful add auction
+        $user = getFirstAllMatches('users', 'user_id', $_SESSION['loggedin']); //get the first match of an all column query
 
         $pdo = startDB();
         $stmt = $pdo->prepare('INSERT INTO auction (title, description, endDate, categoryId, email, imgUrl) 

@@ -15,7 +15,7 @@ $pageContent = '<p>Already have an account?<a href=\'login.php\'>Click here to L
 require '../../layout.php';
 
 if (isset($_POST['submit'])) {
-    addUser(false);
+    addUser(false); //adds the user to the db without admin privileges
     echo '<p>Successful account creation</p>';
 }
 ?>

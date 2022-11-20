@@ -1,25 +1,22 @@
 <?php
-function fetchCats() {
-    $pdo = startDB();
-	$stmt = $pdo->prepare('SELECT * FROM category');
-	$stmt->execute();
+function fetchCats() { //get all categories
 	$cats = executeQueryWithoutConstraint('category','*')->fetchAll();
-
     return $cats;
 }
 
-function adminCheck() {
+function adminCheck() { //check to see if user is logged in as admin
 	if(isset($_SESSION['admin'])) {
 		if($_SESSION['admin'] != 'y') {
-			echo '<script>window.location.href = "../index.php";</script>';
+			echo '<script>window.location.href = "../index.php";</script>'; //redirect
 		}
 	}
 	else {
-		echo'<script>window.location.href = "../index.php";</script>';
+		echo'<script>window.location.href = "../index.php";</script>'; //redirect
 	}
 }
 
-function startDB() { // Code for connecting to the database from https://www.sitepoint.com/re-introducing-pdo-the-right-way-to-access-databases-in-php/
+function startDB() { //Create a db connection
+	// Code for connecting to the database from https://www.sitepoint.com/re-introducing-pdo-the-right-way-to-access-databases-in-php/
 	$server = 'mysql';
 	$username = 'student';
 	$password = 'student';
@@ -28,23 +25,23 @@ function startDB() { // Code for connecting to the database from https://www.sit
 	return $pdo;
 }
 
-function checkListing() {
+function checkListing() { //check if the get variables contains listing_id
 	if (!isset($_GET['listing_id'])) {
 		echo '<script>window.location.href = "index.php";</script>';
 	}
 }
 
-function checkId() {
+function checkId() { //check if the get variables contains user_id
 	if (!isset($_GET['user_id'])) {
 		echo '<script>window.location.href = "index.php";</script>';
 	}
 }
 
-function getListing() {
+function getListing() { //get listing that matches listing_id stored in the get variables
 	return getFirstAllMatches('auction', 'listing_id', $_GET['listing_id']);
 }
 
-function populateCatSelect() {
+function populateCatSelect() { //Populate a select input with all categories
     $cats = fetchCats();
     $output = '';
 	foreach ($cats as &$cat) {
@@ -53,7 +50,7 @@ function populateCatSelect() {
     return $output;
 }
 
-function executeQuery($tableName, $colName, $constraintCol, $constraint) {
+function executeQuery($tableName, $colName, $constraintCol, $constraint) { //execute a SELECT query that takes one constraint and one column name
 	$pdo = startDB();
 	$stmt = $pdo->prepare('SELECT '. $colName .' FROM '.$tableName.' WHERE '. $constraintCol .' = :constraint');
 	$values = [
@@ -63,30 +60,30 @@ function executeQuery($tableName, $colName, $constraintCol, $constraint) {
 	return $stmt;
 }
 
-function executeQueryWithoutConstraint($tableName, $colName) {
+function executeQueryWithoutConstraint($tableName, $colName) { //execute a SELECT query with no constraint and one column name
 	$pdo = startDB();
 	$stmt = $pdo->prepare('SELECT'.$colName.'FROM '.$tableName);
 	$stmt->execute();
 	return $stmt;
 }
 
-function getFirstMatch($tableName, $colName, $constraintCol, $constraint){
+function getFirstMatch($tableName, $colName, $constraintCol, $constraint){ //return the first match of an executeQuery
 	return executeQuery($tableName, $colName, $constraintCol, $constraint)->fetch();
 }
 
-function getEveryMatch($tableName, $colName, $constraintCol, $constraint){
+function getEveryMatch($tableName, $colName, $constraintCol, $constraint){ //return every match of an executeQuery
 	return executeQuery($tableName, $colName, $constraintCol, $constraint)->fetchAll();
 }
 
-function executeAllQuery($tableName, $constraintCol, $constraint) {
+function executeAllQuery($tableName, $constraintCol, $constraint) { //execute a SELECT query with one constraint and all columns
 	return executeQuery($tableName, '*', $constraintCol, $constraint);
 }
 
-function getEveryAllMatches($tableName, $constraintCol, $constraint) {
+function getEveryAllMatches($tableName, $constraintCol, $constraint) { //return every match of an executeALlQuery
 	return executeAllQuery($tableName, $constraintCol, $constraint)->fetchAll();
 }
 
-function getFirstAllMatches($tableName, $constraintCol, $constraint) {
+function getFirstAllMatches($tableName, $constraintCol, $constraint) { //return the first match of an executeAllQuery
 	return executeAllQuery($tableName, $constraintCol, $constraint)->fetch();
 }
 
