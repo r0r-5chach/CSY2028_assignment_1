@@ -29,12 +29,13 @@ if (isset($_POST['submit'])) {
     $user = $stmt->fetch();
 
 
-    $stmt = $pdo->prepare('INSERT INTO auction (title, description, endDate, categoryId, email) VALUES (:title, :description, :endDate, :categoryID, :email)');
+    $stmt = $pdo->prepare('INSERT INTO auction (title, description, endDate, categoryId, email) 
+    VALUES (:title, :description, :endDate, :categoryID, :email)');
     $values = [
         'title' => $_POST['title'],
         'description' => $_POST['description'],
         'endDate' => $_POST['endDate'],
-        'categoryId' => $_POST['category'],
+        'categoryID' => intval($_POST['category']),
         'email' => $user['email']
     ];
     $stmt->execute($values);

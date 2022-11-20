@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../functions.php';
 $pageTitle = 'iBuy - Product Listing'; 
 $pageContent = '<h1>Product Page</h1>
@@ -74,6 +75,10 @@ function populateContent() {
             <input type="submit" name="submit" value="Add Review" />
         </form>
     </section>';
+
+    if($user['user_id'] === $_SESSION['loggedin']) {
+        $output .= '<a href ="account/editAuction.php?listing_id='. $listing['listing_id'] . '">edit</a>';
+    }
 
     return $output;
 }
